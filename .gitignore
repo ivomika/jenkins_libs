@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Groovy/Java build outputs
+build/
+out/
+target/
+*.class
+
+# Gradle
+.gradle/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp

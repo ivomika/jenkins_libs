@@ -1,0 +1,4 @@
+Prints a greeting from the shared library.
+
+Example:
+`sayHello('team')`

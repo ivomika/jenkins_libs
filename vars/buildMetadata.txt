@@ -1,0 +1,4 @@
+Returns basic Jenkins build metadata as a map.
+
+Example:
+`def meta = buildMetadata()`
