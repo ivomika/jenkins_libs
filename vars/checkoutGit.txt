@@ -1,0 +1,4 @@
+Checks out a Git repository into the current workspace.
+
+Example:
+`checkoutGit('git@github.com:your-org/your-repo.git')`

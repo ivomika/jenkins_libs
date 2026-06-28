@@ -1,6 +1,6 @@
 # jenkins_libs
 
-Minimal Jenkins Shared Library scaffold.
+Jenkins Shared Library with reusable pipeline steps.
 
 ## Structure
 
@@ -8,22 +8,29 @@ Minimal Jenkins Shared Library scaffold.
 - `src/` reusable Groovy classes
 - `resources/` bundled static resources
 
+## Available Steps
+
+- `checkoutGit(gitUri)` clones a repository into the current workspace
+- `testFlutterAgent()` runs `flutter --version`
+
 ## Usage
 
 ```groovy
 @Library('jenkins_libs') _
 
 pipeline {
-  agent any
+  agent { label 'flutter' }
 
   stages {
-    stage('Example') {
+    stage('Checkout') {
       steps {
-        script {
-          sayHello('team')
-          def meta = buildMetadata()
-          echo "Build metadata: ${meta}"
-        }
+        checkoutGit('git@github.com:your-org/your-repo.git')
+      }
+    }
+
+    stage('Flutter Agent Check') {
+      steps {
+        testFlutterAgent()
       }
     }
   }

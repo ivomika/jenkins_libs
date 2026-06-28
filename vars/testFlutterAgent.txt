@@ -1,0 +1,1 @@
+Runs `flutter --version` on the current Jenkins agent.
