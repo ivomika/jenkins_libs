@@ -10,7 +10,7 @@ Jenkins Shared Library with reusable pipeline steps.
 
 ## Available Steps
 
-- `checkoutGit(branch)` clones the repository from Jenkins SCM configuration using the provided branch
+- `checkoutGit { ... }` clones the repository using `REPOSITORY_URL` and `BRANCH`
 - `testFlutterAgent()` runs `flutter --version`
 
 ## Usage
@@ -24,7 +24,10 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkoutGit('main')
+        checkoutGit {
+          REPOSITORY_URL = 'https://github.com/ivomika/kadro_app.git'
+          BRANCH = 'master'
+        }
       }
     }
 

@@ -1,27 +1,38 @@
-def call(String branch) {
-    if (!branch?.trim()) {
-        error('checkoutGit requires a non-empty branch name')
+def call(Map config) {
+    if (!config?.REPOSITORY_URL?.trim()) {
+        error('checkoutGit requires REPOSITORY_URL')
     }
 
-    if (!binding.hasVariable('scm') || scm == null) {
-        error('checkoutGit requires SCM to be configured in the Jenkins pipeline/job configuration')
+    if (!config?.BRANCH?.trim()) {
+        error('checkoutGit requires BRANCH')
     }
 
-    def remoteConfigs = scm.userRemoteConfigs
-    if (!remoteConfigs) {
-        error('checkoutGit could not read Git remote configuration from the pipeline/job SCM settings')
+    def remoteConfig = [url: config.REPOSITORY_URL.trim()]
+    if (config.CREDENTIALS_ID?.trim()) {
+        remoteConfig.credentialsId = config.CREDENTIALS_ID.trim()
     }
-
-    def branchName = normalizeBranch(branch.trim())
 
     checkout([
         $class: 'GitSCM',
-        branches: [[name: branchName]],
+        branches: [[name: normalizeBranch(config.BRANCH.trim())]],
         doGenerateSubmoduleConfigurations: false,
-        extensions: scm.extensions ?: [],
-        gitTool: scm.gitTool ?: 'Default',
+        extensions: [],
+        gitTool: 'Default',
         submoduleCfg: [],
-        userRemoteConfigs: remoteConfigs
+        userRemoteConfigs: [remoteConfig]
+    ])
+}
+
+def call(Closure body) {
+    def config = new CheckoutGitConfig()
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
+    call([
+        REPOSITORY_URL: config.REPOSITORY_URL,
+        BRANCH       : config.BRANCH,
+        CREDENTIALS_ID: config.CREDENTIALS_ID
     ])
 }
 
@@ -31,4 +42,10 @@ private String normalizeBranch(String branch) {
     }
 
     return "*/${branch}"
+}
+
+class CheckoutGitConfig implements Serializable {
+    String REPOSITORY_URL
+    String BRANCH
+    String CREDENTIALS_ID
 }

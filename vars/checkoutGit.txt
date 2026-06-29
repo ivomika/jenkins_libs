@@ -1,4 +1,4 @@
-Checks out a Git repository into the current workspace using SCM settings from the Jenkins pipeline/job configuration.
+Checks out a Git repository into the current workspace.
 
 Example:
-`checkoutGit('main')`
+`checkoutGit { REPOSITORY_URL = 'https://github.com/ivomika/kadro_app.git'; BRANCH = 'master' }`
