@@ -10,7 +10,7 @@ Jenkins Shared Library with reusable pipeline steps.
 
 ## Available Steps
 
-- `checkoutGit(gitUri)` clones a repository into the current workspace
+- `checkoutGit(branch)` clones the repository from Jenkins SCM configuration using the provided branch
 - `testFlutterAgent()` runs `flutter --version`
 
 ## Usage
@@ -24,7 +24,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkoutGit('git@github.com:your-org/your-repo.git')
+        checkoutGit('main')
       }
     }
 

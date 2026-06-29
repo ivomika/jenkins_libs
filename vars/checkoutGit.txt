@@ -1,4 +1,4 @@
-Checks out a Git repository into the current workspace.
+Checks out a Git repository into the current workspace using SCM settings from the Jenkins pipeline/job configuration.
 
 Example:
-`checkoutGit('git@github.com:your-org/your-repo.git')`
+`checkoutGit('main')`
